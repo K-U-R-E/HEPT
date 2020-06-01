@@ -5,6 +5,8 @@ results, just copy it and run it at Jupyter notebook, preferably.
 
 Author: Guilherme Tavares
 
+Note: Additions made by Vinay Williams at Kingston University, 2020. 
+
 ASSUMPTIONS
 
 - Isentropic flow along the nozzle
