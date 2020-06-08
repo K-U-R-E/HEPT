@@ -1,6 +1,6 @@
 <img src="https://d68b3152cf5d08c2f050-97c828cc9502c69ac5af7576c62d48d6.ssl.cf3.rackcdn.com/includes/img/site-cms/Kingston_University_London_logo_320-desktop-black.png" width="48">
 
-# H.E.D.T ~ Hybrid Engine Performance Tool  
+# H.E.P.T ~ Hybrid Engine Performance Tool  
 
 This project is in association with the Kingston University's Rocket Propulsion Group/ Formula Rocket Team. It was initially created for use in the design of a 2-3kN hybrid engine for space port america cup 2021. 
 
