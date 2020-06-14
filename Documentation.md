@@ -50,7 +50,7 @@ Author: Guilherme Tavares and additions made by Vinay Williams at Kingston Unive
 - **For N20 properties:** CoolProp (available documentation in http://www.coolprop.org/index.html)
 
 
-## Additions made:
+## ADDITIONS MADE
 
 - Addition of various new plots
 - .csv output of various parameters
