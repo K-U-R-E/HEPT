@@ -5,7 +5,7 @@ results, just copy it and run it at Jupyter notebook, preferably.
 
 Author: Guilherme Tavares
 
-Note: Additions made by Vinay Williams at Kingston University, 2020. 
+Note: Additions made by Vinay Williams at Kingston University, 2020.
 
 ASSUMPTIONS
 
@@ -63,6 +63,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy import integrate
+from scipy.stats import linregress
 from scipy.integrate import odeint
 try:
     import CoolProp.CoolProp
@@ -130,6 +131,7 @@ out_liquid_nitrous = [0] # Mass of liquid nitrous oxide that escapes through the
 out_vapour_nitrous = [0] # Mass of vapour nitrous oxide that escapes through the injector, kg
 consumed_liquid = [0] # Total consumed liquid nitrous at each time instant, kg
 consumed_vapour = [0] # Total consumed vapour nitrous at each time instant, kg
+oxy = [0]
 chamber_pressure = [Pa] # Combustion chamber pressure, Pa
 grain_radius = [Dint/2] # Paraffin grain radius, m
 tank_pressure = [PropsSI('P','T',Ta,'Q',X,'NITROUSOXIDE')] # Oxidiser tank pressure, Pa
@@ -154,6 +156,7 @@ def two_phase(x,t,k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,T):
         vapour_pressure_nitrous = PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')
         gamma_vapour =  PropsSI('C','T',T,'Q',1,'NITROUSOXIDE')/PropsSI('CVMASS','T',T,'Q',1,'NITROUSOXIDE')
         oxidiser_flow_rate = Cd*IA*(2*pho_liquid_nitrous*(vapour_pressure_nitrous-x[0]))**0.5
+        oxy.append(oxidiser_flow_rate)
         pgas = x[0]*M/(8314*To);
         dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*1.28*10**(-5)*((oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94)-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5)
         dx1 = 1.28*10**(-5)*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94
@@ -211,6 +214,7 @@ def vapour_phase(x,t,k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,P):
         pho_vapour_nitrous = PropsSI('D','P',P,'Q',1,'NITROUSOXIDE')
         gamma_vapour =  PropsSI('C','P',P,'Q',1,'NITROUSOXIDE')/PropsSI('CVMASS','P',P,'Q',1,'NITROUSOXIDE')
         oxidiser_flow_rate = Cd*IA*(gamma_vapour*PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')*PropsSI('D','T',T,'Q',1,'NITROUSOXIDE')*(2/(gamma_vapour+1))**( (gamma_vapour+1)/(gamma_vapour-1) ))**0.5
+        oxy.append(oxidiser_flow_rate)
         pgas = x[0]*M/(8314*To);
         dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*1.28*10**(-5)*((oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94)-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5)
         dx1 = 1.28*10**(-5)*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94
@@ -300,44 +304,62 @@ fig.suptitle('Thrust Curve', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Thrust (N)', fontsize=10)
 plt.plot(t,thrust[0:len(thrust)-1])
-plt.savefig("thrustcurve.png")
+plt.savefig("./images/thrustcurve.png")
 fig2 = plt.figure()
 fig2.suptitle('Pressure Curve', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Pressure (Pa)', fontsize=10)
 plt.plot(t,chamber_pressure[0:len(chamber_pressure)-1])
-plt.savefig("pressurecurve.png")
+plt.savefig("./images/pressurecurve.png")
 fig3 = plt.figure()
 fig3.suptitle('Tank Pressure ', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Pressure (Pa)', fontsize=10)
 plt.plot(t,tank_pressure[0:len(tank_pressure)-1])
-plt.savefig("tankpressure.png")
+plt.savefig("./images/tankpressure.png")
 fig4 = plt.figure()
 fig4.suptitle('Tank Temperature', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Temperature (K)', fontsize=10)
 plt.plot(t,temperature_tank[0:len(temperature_tank)-1])
-plt.savefig("tanktemperature.png")
+plt.savefig("./images/tanktemperature.png")
 fig5 = plt.figure()
 fig5.suptitle('Grain Radius ', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Diameter (Meters)', fontsize=10)
 plt.plot(t,grain_radius[0:len(grain_radius)-1])
-plt.savefig("grainradius.png")
+plt.savefig("./images/grainradius.png")
 fig6 = plt.figure()
 fig6.suptitle('Quality', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Phase Ratio', fontsize=10)
 plt.plot(t,quality[0:len(quality)-1])
-plt.savefig("quality.png")
+plt.savefig("./images/quality.png")
 fig7 = plt.figure()
 fig7.suptitle('Mass N2O', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Mass N2O (kg)', fontsize=10)
-plt.plot(t,quality[0:len(quality)-1])
-plt.savefig("n2omass.png")
+plt.plot(t,mass_nitrous[0:len(quality)-1])
+plt.savefig("./images/n2omass.png")
 
+import pandas as pd
+print(len(t))
+print(len(mass_nitrous))
+print(len(thrust))
+print(len(chamber_pressure))
+print(len(grain_radius))
+print(len(temperature_tank))
+print(len(quality))
+
+# todo@vinay: augment arrays to be the same length, that is time array is one unit smaller than the other array
+# todo@vinay: because the dataframe won't work right if they aren't the same length
+data = {"Time":t, "Mass":mass_nitrous, "Thrust":thrust, "Pressure":chamber_pressure, "Grain Radius":grain_radius, "Tank Temperature":temperature_tank, "Tank Pressure":tank_pressure, "Quality":quality}
+df = pd.DataFrame(data, columns = ["Time", "Thrust", "Pressure", "Grain Radius", "Tank Temperature", "Tank Pressure", "Quality"])
+df.to_csv("data1.csv", index = False)
+
+
+slope, intercept, r_value, p_value, std_err = linregress(t,mass_nitrous[0:len(quality)-1])
+print("N20 Mass Flow Rate: "+str(slope))
 print("Final Grain Radius: "+str(round(grain_radius[len(mass_nitrous)-1],5)))
 print(" ")
 
