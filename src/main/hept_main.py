@@ -59,6 +59,7 @@ CoolProp (available documentation in http://www.coolprop.org/index.html)
 """
 
 import math
+import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -76,6 +77,9 @@ except ImportError:
 t_s = True
 
 "INPUTS"
+steppeddata_filename = "./data/test.csv"
+otherdata_filename = "./data/data.txt"
+
 e_d = 0.1524 # Airframe internal diameter
 i_d = 0.147 #Internal Motor Diameter
 t_l = 0.7 # Thrust Chamber Length
@@ -299,42 +303,55 @@ while chamber_pressure[i] > 1.1*Pa:
 
 print("Plotting Figures....\n")
 
+# Plot Thrust Curve
 fig = plt.figure()
 fig.suptitle('Thrust Curve', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Thrust (N)', fontsize=10)
 plt.plot(t,thrust[0:len(thrust)-1])
 plt.savefig("./images/thrustcurve.png")
+
+# Plot Pressure Curve
 fig2 = plt.figure()
 fig2.suptitle('Pressure Curve', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Pressure (Pa)', fontsize=10)
 plt.plot(t,chamber_pressure[0:len(chamber_pressure)-1])
 plt.savefig("./images/pressurecurve.png")
+
+# Plot Tank Pressure  Curve
 fig3 = plt.figure()
 fig3.suptitle('Tank Pressure ', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Pressure (Pa)', fontsize=10)
 plt.plot(t,tank_pressure[0:len(tank_pressure)-1])
 plt.savefig("./images/tankpressure.png")
+
+# Plot Tank Temperature Curve
 fig4 = plt.figure()
 fig4.suptitle('Tank Temperature', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Temperature (K)', fontsize=10)
 plt.plot(t,temperature_tank[0:len(temperature_tank)-1])
 plt.savefig("./images/tanktemperature.png")
+
+# Plot Grain Radius Curve
 fig5 = plt.figure()
 fig5.suptitle('Grain Radius ', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Diameter (Meters)', fontsize=10)
 plt.plot(t,grain_radius[0:len(grain_radius)-1])
 plt.savefig("./images/grainradius.png")
+
+# Plot Quality Curve
 fig6 = plt.figure()
 fig6.suptitle('Quality', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
 plt.ylabel('Phase Ratio', fontsize=10)
 plt.plot(t,quality[0:len(quality)-1])
 plt.savefig("./images/quality.png")
+
+# Plot Mass Nitrous Oxide Curve
 fig7 = plt.figure()
 fig7.suptitle('Mass N2O', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
@@ -342,28 +359,30 @@ plt.ylabel('Mass N2O (kg)', fontsize=10)
 plt.plot(t,mass_nitrous[0:len(quality)-1])
 plt.savefig("./images/n2omass.png")
 
-import pandas as pd
-print(len(t))
-print(len(mass_nitrous))
-print(len(thrust))
-print(len(chamber_pressure))
-print(len(grain_radius))
-print(len(temperature_tank))
-print(len(quality))
+# Plot Entropy Curve
+fig8 = plt.figure()
+fig8.suptitle('Entropy', fontsize=12)
+plt.xlabel('Time (s)', fontsize=10)
+plt.ylabel('Entropy', fontsize=10)
+plt.plot(t,total_entropy[0:len(quality)-1])
+plt.savefig("./images/n2omass.png")
+
+print("Figures Plotted....")
 
 # todo@vinay: augment arrays to be the same length, that is time array is one unit smaller than the other array
 # todo@vinay: because the dataframe won't work right if they aren't the same length
-data = {"Time":t, "Mass":mass_nitrous, "Thrust":thrust, "Pressure":chamber_pressure, "Grain Radius":grain_radius, "Tank Temperature":temperature_tank, "Tank Pressure":tank_pressure, "Quality":quality}
-df = pd.DataFrame(data, columns = ["Time", "Thrust", "Pressure", "Grain Radius", "Tank Temperature", "Tank Pressure", "Quality"])
-df.to_csv("data1.csv", index = False)
+data = {"Time":t, "Mass":mass_nitrous[0:len(t)], "Thrust":thrust[0:len(t)], "Pressure":chamber_pressure[0:len(t)], "Grain Radius":grain_radius[0:len(t)], "Tank Temperature":temperature_tank[0:len(t)], "Tank Pressure":tank_pressure[0:len(t)], "Quality":quality[0:len(t)]}
+df = pd.DataFrame(data, columns = ["Time", "Mass", "Thrust", "Pressure", "Grain Radius", "Tank Temperature", "Tank Pressure", "Quality"])
+df.to_csv(steppeddata_filename, index = False)
 
+slope = linregress(t,mass_nitrous[0:len(quality)-1])[0]
+impulse = np.trapz(thrust[0:len(thrust)-1], x = t)
 
-slope, intercept, r_value, p_value, std_err = linregress(t,mass_nitrous[0:len(quality)-1])
+with open(otherdata_filename, "w") as file:
+    file.write("N20 Mass Flow Rate: "+str(slope))
+    file.write("Final Grain Radius: "+str(round(grain_radius[len(mass_nitrous)-1],5)))
+    file.write("Impulse: "+ str(impulse))
+
 print("N20 Mass Flow Rate: "+str(slope))
 print("Final Grain Radius: "+str(round(grain_radius[len(mass_nitrous)-1],5)))
-print(" ")
-
-totalforce = np.sum(thrust)[0]
-time = t[len(t)-1]
-impulse = (totalforce/len(thrust))* time
-print("Impulse: "+ str(round(impulse,5)))
+print("Impulse: "+ str(round(impulse[0],5)))

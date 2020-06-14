@@ -1,0 +1,1 @@
+N20 Mass Flow Rate: -1.4306552914841422Final Grain Radius: 0.05949Impulse: [51220.77381152]
