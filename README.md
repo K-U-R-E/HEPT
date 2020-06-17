@@ -11,6 +11,7 @@ The repository can be downloaded using the command git clone "https://github.com
 * Charles Simpson (k1940133@kingston.ac.uk)
 * Vinay Williams (k1811677@kingston.ac.uk) 
 
-Note: For the Matlab Version [CoolProp](http://www.coolprop.org) needs to be installed.
-      For the Python Version [CoolProp](http://www.coolprop.org), Numpy, Pandas, Scipy and Matplotlib need to be installed.
+Note: 
+* For the Matlab Version [CoolProp](http://www.coolprop.org) needs to be installed.
+* For the Python Version [CoolProp](http://www.coolprop.org), [Numpy](https://numpy.org), [Pandas](https://pandas.pydata.org), [Scipy](https://www.scipy.org) and [Matplotlib](https://matplotlib.org) need to be installed.
 
