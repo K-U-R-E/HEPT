@@ -22,34 +22,34 @@ otherdata_filename = "./data/data.txt"
 
 e_d = 0.1524 # Airframe internal diameter
 i_d = 0.147 #Internal Motor Diameter
-t_l = 0.7 # Thrust Chamber Length
+t_l = 1 # Thrust Chamber Length
 # Environment
 g = 9.81    #"Gravitational Acceleration, m/s^2"
-Pa = 110000 #"Ambient Pressure, Pascal"
+Pa = 101325 #"Ambient Pressure, Pascal"
 Ta = 300    #"Ambient Temperature, K
 
 # Combustion chamber
 n_cstar = 0.9     #"Combustion Efficiency"
 n_cf = 0.885           #"Cf Efficiency"
 k = 1.114           #"Ratio of Specific Heats with respect to combustion products"
-Dint = 0.05          #"Initial Paraffin Grain Diameter, m"
+Dint = 0.02          #"Initial Paraffin Grain Diameter, m"
 Dchamber = i_d     #"Chamber Diameter, m"
 pcomb = 900         #"Paraffin's density, kg/m^3"
 Vol = t_l * np.pi * (i_d/2) ** 2     #"Free chamber volume, m^3"
 M = 26.912            #"Molar mass of combustion products, kg/kmol"
 To = 3347             #"Chamber temperature, K"
 Dthroat = 26*10**-3   #"Throat Diameter, m"
-Dexit = 63.36*10**-3 #"Exit Diameter, m"
-Lgrain = 0.4      #"Paraffin Grain Lenght, m"
+Dexit =41*10**-3 #"Exit Diameter, m"
+Lgrain = 0.75    #"Paraffin Grain Lenght, m"
 
 # Oxidiser Tank
 Cd = 0.65     #"Injector's Discharge Coefficient"
 IA = 0.0002  #"Injector Area, m^2"
-dox = e_d   # Diameter of oxidiser tank (m)
+dox = i_d   # Diameter of oxidiser tank (m)
 
 Cd_Vent = 0.65       # Vent's Discharge Coefficient
-i_ox_mass = 22.3    # Initial oxidiser mass, kg
-length_tank =1.7# Length of oxidiser tank, m
+i_ox_mass = 22 # Initial oxidiser mass, kg
+length_tank = 1.7# Length of oxidiser tank, m
 
 "COMPUTED PARAMETERS"
 
@@ -288,7 +288,7 @@ plt.savefig("./images/tanktemperature.png")
 fig5 = plt.figure()
 fig5.suptitle('Grain Radius ', fontsize=12)
 plt.xlabel('Time (s)', fontsize=10)
-plt.ylabel('Diameter (Meters)', fontsize=10)
+plt.ylabel('Radius (meters)', fontsize=10)
 plt.plot(t,grain_radius[0:len(grain_radius)-1])
 plt.savefig("./images/grainradius.png")
 
@@ -360,7 +360,7 @@ print("Figures Plotted....")
 
 data = {"Time":t, "Exhaust Mass Flow Rate":exhaust_mass_flow_rate[0:len(t)], "Mass":mass_nitrous[0:len(t)], "Thrust":thrust[0:len(t)], "Pressure":chamber_pressure[0:len(t)], "Grain Radius":grain_radius[0:len(t)], "Tank Temperature":temperature_tank[0:len(t)], "Tank Pressure":tank_pressure[0:len(t)],"Quality":quality[0:len(t)], "N2O Mass Flow Rate":n2o_mass_flow_rate[0:len(t)], "Chamber Pressure": chamber_pressure[0:len(t)], "Mass N2O Vapour":mass_vapour_nitrous[0:len(t)], "Mass N2O Liquid":mass_liquid_nitrous[0:len(t)], "Total Entropy":total_entropy[0:len(t)]}
 
-df = pd.DataFrame(data, columns = ["Time", "Exhaust Mass Flow Rate ","Mass", "Thrust", "Pressure", "Grain Radius", "Tank Temperature", "Tank Pressure", "Quality", "N2O Mass Flow Rate", "Chamber Pressure", "Mass N2O Vapour", "Mass N2O Liquid", "Total Entropy"])
+df = pd.DataFrame(data, columns = ["Time", "Exhaust Mass Flow Rate","Mass", "Thrust", "Pressure", "Grain Radius", "Tank Temperature", "Tank Pressure", "Quality", "N2O Mass Flow Rate", "Chamber Pressure", "Mass N2O Vapour", "Mass N2O Liquid", "Total Entropy"])
 df.to_csv(steppeddata_filename, index = False)
 
 slope = linregress(t,mass_nitrous[0:len(quality)-1])[0]

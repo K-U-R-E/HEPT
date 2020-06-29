@@ -1,10 +1,10 @@
 Performance Stats: 
 Airframe Parameters:Internal Diameter: 0.1524Internal Motor Diameter: 0.147
-Operating Conditions:Ambient Pressure: 110000Ambient Temperature: 300
+Operating Conditions:Ambient Pressure: 101325Ambient Temperature: 300
 Engine Specificiations: 
-Combustion Efficiency: 0.9Initial Port Diameter: 0.05Chamber Temperature: 3347Average N20 Mass Flow Rate: 1.4306552914841422Final Grain Radius: 0.05949Total Impulse: [51220.77381152]
-Length of Grain: 0.4Nozzle Parameters: 
-Throat Diameter: 0.026000000000000002Exit Diameter 0.06336Oxidiser Tank Dimensions: 
+Combustion Efficiency: 0.9Initial Port Diameter: 0.02Chamber Temperature: 3347Average N20 Mass Flow Rate: 1.2854314381929273Final Grain Radius: 0.05771Total Impulse: [58353.80003329]
+Length of Grain: 0.75Nozzle Parameters: 
+Throat Diameter: 0.026000000000000002Exit Diameter 0.041Oxidiser Tank Dimensions: 
 Length of Tank: 1.7Diameter of Tank: 0.1524Volume of Tank: 0.03101049772076686
 Oxidiser Paramters: 
-Mass of Oxidiser: 22.3
+Mass of Oxidiser: 22
