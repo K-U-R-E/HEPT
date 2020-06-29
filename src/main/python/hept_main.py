@@ -48,7 +48,7 @@ IA = 0.0002  #"Injector Area, m^2"
 dox = i_d   # Diameter of oxidiser tank (m)
 
 Cd_Vent = 0.65       # Vent's Discharge Coefficient
-i_ox_mass = 22 # Initial oxidiser mass, kg
+i_ox_mass = 20 # Initial oxidiser mass, kg
 length_tank = 1.7# Length of oxidiser tank, m
 
 "COMPUTED PARAMETERS"
