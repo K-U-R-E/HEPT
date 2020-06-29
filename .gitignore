@@ -1,1 +1,7 @@
+# MAC rubbish
 .DS_Store
+
+# images
+*.png
+*.txt
+*.csv 
