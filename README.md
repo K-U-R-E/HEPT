@@ -4,7 +4,7 @@
 
 This project is in association with the Kingston University's Rocket Propulsion Group/ Formula Rocket Team. It was initially created for use in the design of a hybrid engine for space port america cup 2021. 
 
-The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/ARK/HEPT.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
+The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/KURE/HEPT.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
 * Malcolm Claus (m.claus@kingston.ac.uk)
 * Peter Shaw (p.shaw@kingston.ac.uk) 
