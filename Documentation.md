@@ -1,8 +1,10 @@
-# Docmentation for HEPT
+# Documentation for HEPT
 
 The code performs a simulation of a nitrous oxide - paraffin hybrid rocket motor. Some inputs from the user are needed, as seen below. For results, copy it and run it at Jupyter notebook, preferably.
 
-Author: Guilherme Tavares and additions made by Vinay Williams at Kingston University, 2020.
+Author: Vinay Williams at Kingston University, 2020.
+
+Based on a script by: Guilherme Tavares
 
 ## ASSUMPTIONS
 
@@ -39,7 +41,7 @@ Author: Guilherme Tavares and additions made by Vinay Williams at Kingston Unive
 
 - New versions of the code will be gradually uploaded to tackle the above-mentioned assumptions, and to improve user experience.
 
-## REFERENCES
+## REFERENCES (Some major ones)
 
 - **For general internal ballistic's equations:** SUTTON, G.P.; BIBLARZ, Oscar. Rocket Propulsion Elements. 8th ed. John Wiley & Sons, Inc., Hoboken, New Jersey, 2010.
 
@@ -48,11 +50,3 @@ Author: Guilherme Tavares and additions made by Vinay Williams at Kingston Unive
 - **For N20-paraffin's regression law:** LESTRADE, J.-Y.; ANTHOINE, J.; LAVERGNE, G. Liquefying fuel regression rate modeling in hybrid propulsion. The French Aerospace Lab, Mauzac, France; The French Aerospace Lab, Toulouse, France, 2010.
 
 - **For N20 properties:** CoolProp (available documentation in http://www.coolprop.org/index.html)
-
-
-## ADDITIONS MADE
-
-- Addition of various new plots
-- .csv output of various parameters
-- .txt output of impulse, final grain radius and N2O mass flow rate
-

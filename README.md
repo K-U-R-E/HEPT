@@ -6,12 +6,9 @@ This project is in association with the Kingston University's Rocket Propulsion 
 
 The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/KURE/HEPT.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
-* Malcolm Claus (m.claus@kingston.ac.uk)
-* Peter Shaw (p.shaw@kingston.ac.uk) 
-* Charles Simpson (k1940133@kingston.ac.uk)
+* Erika McDowell 
 * Vinay Williams (k1811677@kingston.ac.uk) 
 
 Note: 
-* For the Matlab Version [CoolProp](http://www.coolprop.org) needs to be installed.
-* For the Python Version [CoolProp](http://www.coolprop.org), [Numpy](https://numpy.org), [Pandas](https://pandas.pydata.org), [Scipy](https://www.scipy.org) and [Matplotlib](https://matplotlib.org) need to be installed.
+* [CoolProp](http://www.coolprop.org), [Numpy](https://numpy.org), [Pandas](https://pandas.pydata.org), [Scipy](https://www.scipy.org) and [Matplotlib](https://matplotlib.org) need to be installed.
 
