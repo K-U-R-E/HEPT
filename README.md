@@ -2,12 +2,23 @@
 
 # H.E.P.T ~ Hybrid Engine Performance Tool  
 
-This project is in association with the Kingston University's Rocket Propulsion Group/ Formula Rocket Team. It was initially created for use in the design of a hybrid engine for space port america cup 2021. 
+This project is in association with the Kingston University's Rocket Propulsion Group.
 
-The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/KURE/HEPT.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
+Authors:
+
+* Vinay Williams (2020)
+* Mohammed Zweiri (2020)
+
+Based on code by:
+
+* Guilherme Tavares
+
+If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
 * Erika McDowell 
 * Vinay Williams (k1811677@kingston.ac.uk) 
+
+The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/KURE/HEPT.git". 
 
 Note: 
 * [CoolProp](http://www.coolprop.org), [Numpy](https://numpy.org), [Pandas](https://pandas.pydata.org), [Scipy](https://www.scipy.org) and [Matplotlib](https://matplotlib.org) need to be installed.
