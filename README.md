@@ -2,7 +2,7 @@
 
 # H.E.P.T ~ Hybrid Engine Performance Tool  
 
-This project is in association with the Kingston University's Rocket Propulsion Group.
+This project is in association with the Kingston University's Rocket Propulsion Group and its Aeropsace Engineering, Astronautics and Space Technology Group
 
 Authors:
 
