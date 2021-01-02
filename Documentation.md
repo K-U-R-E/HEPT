@@ -1,10 +1,13 @@
 # Documentation for HEPT
 
-The code performs a simulation of a nitrous oxide - paraffin hybrid rocket motor. Some inputs from the user are needed, as seen below. For results, copy it and run it at Jupyter notebook, preferably.
+The code performs a simulation of a nitrous oxide - paraffin hybrid rocket motor. Some inputs from the user are needed, as seen below. 
 
-Author: Vinay Williams at Kingston University, 2020.
+Authors: 
 
-Based on a script by: Guilherme Tavares
+- Vinay Williams and Mohammed Zweiri, 2020. (Kingston University London)
+
+- Guilherme Tavares, 2019.
+
 
 ## ASSUMPTIONS
 
@@ -50,3 +53,34 @@ Based on a script by: Guilherme Tavares
 - **For N20-paraffin's regression law:** LESTRADE, J.-Y.; ANTHOINE, J.; LAVERGNE, G. Liquefying fuel regression rate modeling in hybrid propulsion. The French Aerospace Lab, Mauzac, France; The French Aerospace Lab, Toulouse, France, 2010.
 
 - **For N20 properties:** CoolProp (available documentation in http://www.coolprop.org/index.html)
+
+## LICENSE
+
+MIT License
+
+Copyright (c) 2020 Vinay Williams and Mohammed Zweiri
+
+Copyright (c) 2019 Guilherme Castrignano Tavares
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+***Note:*** *The code uses lines written by Guilherme which was licensed using an MIT 
+      license therefore the above license inclusion. Furthermore, in an attempt
+      to maintain open use of this software at Kingston University and other educational institutions,
+      Mohammed and Vinay have also opted to distribute the 2020 version under a MIT License as well.*
