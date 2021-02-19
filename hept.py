@@ -59,6 +59,7 @@ grain_radius = [Dint/2] # Paraffin grain radius, m
 
 "OXIDISER PARAMETERS"
 Cd_Vent = 0.65  # Vent's Discharge Coefficient
+Rpipe = 0.000167  # Pipe Diameter
 i_ox_mass = 16  # "Initial oxidiser mass, kg"
 
 
@@ -124,7 +125,7 @@ tank_crosssectionalarea = (((i_d)**2)*np.pi)/4  #Internal cross-section of the t
 Vol = t_l * np.pi * (i_d/2) ** 2     #"Free chamber volume, m^3"
 fuel_mass = (((Dchamber/2)*(Dchamber/2)) - ((Dint/2)*(Dint/2)))*3.14*Lgrain*pcomb   #"Mass of Fuel, kg"
 R = 8314/M; # Gas constant
-VA = np.pi*(0.001**2)/4 # Vent Area, m^2
+VA = np.pi*(Rpipe**2)/4 # Vent Area, m^2
 gamma_vapour =  PropsSI('C','T',Ta,'Q',0,'NITROUSOXIDE')/PropsSI('CVMASS','T',Ta,'Q',0,'NITROUSOXIDE') # Specific heat ratio of vapour nitrous oxide
 Vtank = np.pi*dox**2*length_tank/4; # Volume of oxidiser tank, m3
 X = (PropsSI('D','T',Ta,'Q',1,'NITROUSOXIDE')*PropsSI('D','T',Ta,'Q',0,'NITROUSOXIDE')*Vtank-PropsSI('D','T',Ta,'Q',1,'NITROUSOXIDE')*i_ox_mass)/(i_ox_mass*(PropsSI('D','T',Ta,'Q',0,'NITROUSOXIDE')
