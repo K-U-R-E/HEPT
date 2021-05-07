@@ -30,9 +30,9 @@ verbose = 1 # Verbose
 "DIMENSIONS OF ENGINE"
 e_l = .3                # "Electronics Bay Length, m"
 e_d = 0.1524            # "Airframe internal diameter, m"
-i_d = 0.147             # "Internal Motor Diamete, m"
-t_l = 0.8               # "Thrust Chamber Length, m"
-length_tank = 1.4       # "Length of oxidiser tank, m"
+i_d = 0.136             # "Internal Motor Diamete, m"
+t_l = 0.5               # "Thrust Chamber Length, m"
+length_tank = 1.6       # "Length of oxidiser tank, m"
 Dthroat = 26*10**-3     # "Throat Diameter, m"
 Dexit =41*10**-3        # "Exit Diameter, m"
 dox = i_d               # "Diameter of oxidiser tank (m)"
@@ -49,17 +49,17 @@ Ta = 300    # "Ambient Temperature, K
 n_cstar = 0.9           # "Combustion Efficiency"
 n_cf = 0.885            # "Cf Efficiency"
 k = 1.114               # "Ratio of Specific Heats with respect to combustion products"
-Dint = 0.03             # "Initial Paraffin Grain Diameter, m"
+Dint = 0.05             # "Initial Paraffin Grain Diameter, m"
 Dchamber = i_d          # "Chamber Diameter, m"
 pcomb = 900             # "Paraffin's density, kg/m^3"
-M = 26.912              # "Molar mass of combustion products, kg/kmol"
-To = 3347               # "Chamber temperature, K"
+M = 27.812              # "Molar mass of combustion products, kg/kmol"
+To = 3357               # "Chamber temperature, K"
 Lgrain = 0.5            # "Paraffin Grain Length, m"
 grain_radius = [Dint/2] # Paraffin grain radius, m
 
 "OXIDISER PARAMETERS"
 Cd_Vent = 0.65  # Vent's Discharge Coefficient
-Rpipe = 0.000167  # Pipe Diameter
+Rpipe = 0       # Pipe Diameter
 i_ox_mass = 16  # "Initial oxidiser mass, kg"
 
 
@@ -196,7 +196,7 @@ def two_phase(x,t,k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,T):
         vapour_pressure_nitrous = PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')
         gamma_vapour =  PropsSI('C','T',T,'Q',1,'NITROUSOXIDE')/PropsSI('CVMASS','T',T,'Q',1,'NITROUSOXIDE')
         oxidiser_flow_rate = Cd*IA*(2*pho_liquid_nitrous*(vapour_pressure_nitrous-x[0]))**0.5
-        pgas = x[0]*M/(8314*To);
+        pgas = x[0]*M/(8314*To)
         dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*1.28*10**(-5)*((oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94)-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5)
         dx1 = 1.28*10**(-5)*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94
         dx2 = oxidiser_flow_rate
