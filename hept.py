@@ -62,7 +62,9 @@ Cd_Vent = 0.65  # Vent's Discharge Coefficient
 Rpipe = 0       # Pipe Diameter
 i_ox_mass = 16  # "Initial oxidiser mass, kg"
 
-
+"REGRESSION PARAMETERS"
+a=1.28*10**(-5)
+n=0.94
 "INJECTOR PARAMTERS"
 Cd = 0.65       # "Injector's Discharge Coefficient"
 IA = 0.0002     # "Injector Area, m^2"
@@ -123,8 +125,8 @@ thrustcurve = data_path+"/"+engine_name+".eng"
 "-----------------COMPUTED PARAMETERS-----------------"
 tank_crosssectionalarea = (((i_d)**2)*np.pi)/4  #Internal cross-section of the tank
 Vol = t_l * np.pi * (i_d/2) ** 2     #"Free chamber volume, m^3"
-fuel_mass = (((Dchamber/2)*(Dchamber/2)) - ((Dint/2)*(Dint/2)))*3.14*Lgrain*pcomb   #"Mass of Fuel, kg"
-R = 8314/M; # Gas constant
+fuel_mass = ((Dchamber/2)**2 - (Dint/2)**2)*np.pi*Lgrain*pcomb   #"Mass of Fuel, kg"
+R = 8314/M # Gas constant
 VA = np.pi*(Rpipe**2)/4 # Vent Area, m^2
 gamma_vapour =  PropsSI('C','T',Ta,'Q',0,'NITROUSOXIDE')/PropsSI('CVMASS','T',Ta,'Q',0,'NITROUSOXIDE') # Specific heat ratio of vapour nitrous oxide
 Vtank = np.pi*dox**2*length_tank/4; # Volume of oxidiser tank, m3
@@ -193,19 +195,22 @@ cg = [cg_calculate(both = 1)] # Centre of Gravity Position along axial length
 "-----------------TWO PHASE-----------------"
 def two_phase(x,t,k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,T):
         pho_liquid_nitrous = PropsSI('D','T',T,'Q',0,'NITROUSOXIDE')
+        pho_liquid_vapour=PropsSI('D','T',T,'Q',1,'NITROUSOXIDE')
         vapour_pressure_nitrous = PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')
         gamma_vapour =  PropsSI('C','T',T,'Q',1,'NITROUSOXIDE')/PropsSI('CVMASS','T',T,'Q',1,'NITROUSOXIDE')
         oxidiser_flow_rate = Cd*IA*(2*pho_liquid_nitrous*(vapour_pressure_nitrous-x[0]))**0.5
+        Reg=a*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**n #Regression rate
         pgas = x[0]*M/(8314*To)
-        dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*1.28*10**(-5)*((oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94)-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5)
-        dx1 = 1.28*10**(-5)*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94
+        dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*Reg-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5) # Change in chamber pressure by the difference in Ox flow and fuel flow through grain and mass flow through nozzle
+        dx1 = Reg   #Regression rate   
         dx2 = oxidiser_flow_rate
-        dx3 = VA*Cd_Vent*(gamma_vapour*PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')*PropsSI('D','T',T,'Q',1,'NITROUSOXIDE')*(2/(gamma_vapour+1))**( (gamma_vapour+1)/(gamma_vapour-1) ))**0.5
+        dx3 = VA*Cd_Vent*(gamma_vapour*PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')*pho_liquid_vapour*(2/(gamma_vapour+1))**( (gamma_vapour+1)/(gamma_vapour-1) ))**0.5 #Ox flow out of vent, needs to be adjsted for mechanical valve & minimum vent pressure
         dx = [dx0, dx1, dx2, dx3]
         return dx
 
+#set up basic arrays
 t = []
-x0 = [chamber_pressure[0],grain_radius[0],0,0]
+x0 = [chamber_pressure[0],grain_radius[0],0,0] #chamber pressure, grain radius, oxidiser flow rate, vent flow rate
 ysol = []
 i = 0
 T = Ta
@@ -214,10 +219,10 @@ if verbose == 1:
     print("Two Phase Calculations....\n")
 
 while mass_liquid_nitrous[i] > 0.01:
-    ysol.append(x0)
+    ysol.append(x0) # set intitial values
     ts = [step*i,step*(i+1)]
-    y = odeint(two_phase,x0,ts,args=(k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,T))
-    x0 = y[1,:].tolist()
+    y = odeint(two_phase,x0,ts,args=(k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,T)) #solve system of differential equations
+    x0 = y[1,:].tolist() # set next intial value
     t.append(i*step)
     i = i + 1
     out_liquid_nitrous.append(x0[2]-consumed_liquid[i-1])
@@ -247,7 +252,7 @@ def vapour_phase(x,t,k,M,R,To,Lgrain,Cd,IA,pcomb,n_cstar,Dthroat,Vol,P):
         oxidiser_flow_rate = Cd*IA*(gamma_vapour*PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')*PropsSI('D','T',T,'Q',1,'NITROUSOXIDE')*(2/(gamma_vapour+1))**( (gamma_vapour+1)/(gamma_vapour-1) ))**0.5
         pgas = x[0]*M/(8314*To);
         dx0 = (R*To/Vol)*(oxidiser_flow_rate+Lgrain*2*np.pi*x[1]*(pcomb-pgas)*1.28*10**(-5)*((oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94)-x[0]/n_cstar*(np.pi*(Dthroat**2)/4)*((k/(R*To))*(2/(k+1))**((k+1)/(k-1)))**0.5)
-        dx1 = 1.28*10**(-5)*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**0.94
+        dx1 = a*(oxidiser_flow_rate/(np.pi*(x[1]**2)))**n
         dx2 = oxidiser_flow_rate + VA*Cd_Vent*(gamma_vapour*PropsSI('P','T',T,'Q',1,'NITROUSOXIDE')*PropsSI('D','T',T,'Q',1,'NITROUSOXIDE')*(2/(gamma_vapour+1))**( (gamma_vapour+1)/(gamma_vapour-1) ))**0.5
         dx = [dx0, dx1, dx2]
         return dx
