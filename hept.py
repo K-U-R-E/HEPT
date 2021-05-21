@@ -71,17 +71,17 @@ IA = 0.0002     # "Injector Area, m^2"
 
 "CG PARAMETERS"
 
-#parts format  = [Nozzle,Thrust ring ,Nozzle ring,Combustion tube,Outer liner,Post combustor,Pre combustor,Injector plate,Injector bulkhead,4 Structure support,2 plates,2 horizontal support,Ox-Adapter,Carbon fiber wrap, Tank Bottom bulkhead,Tank wall,Tank Top bulkhead]
+#parts format  = [Nozzle, Thrust ring, Nozzle ring, Combustion tube, Outer liner, Injector plate, Injector bulkhead, 4 Structure support, 2 plates, Ox-Adapter, Carbon fiber wrap, Tank Bottom bulkhead, Tank Top bulkhead, Aluminium Tube]
 
-hardware_indv_start = [0,     0,  0,  0, 107.7, 107.7, 807.7, 907.7,     907.7, 947.7, 994.64, 1078.84, 1242.97, 1255.67, 1255.67, 1281.07, 2991.67]    # "Hardware Start Positions, mm"
-hardware_indv_end =   [107.7, 22, 22, 947.7, 907.7, 307.7, 907.7, 912.7, 947.7, 1242.98, 1197.84, 1113.77, 1255.67, 3042.81, 1306.47, 3017.07,3042.47]  # "Hardware End Positions, mm"
-hardware_indv_length = [107.7, 22, 22,947.7, 800, 200, 100, 5, 40, 295.28, 203.2, 34.93, 12.70, 1787.14, 50.8, 1736, 50.8]                              # "Hardware Lengths, mm"
+hardware_indv_start = [0, 0, 0, 0, 105.4, 606.2, 605.5, 648, 697, 948, 960.7, 960.7, 2639.7, 960.7]    # "Hardware Start Positions, mm"
+hardware_indv_end =   [105.4, 20, 22, 645.5, 605.4, 613, 648, 948, 899, 960.7, 2690.7, 1010.7, 2690.7, 2690.7]  # "Hardware End Positions, mm"
+hardware_indv_length = [105.4, 20, 22, 645.5, 500, 6.8, 42.5, 300, 202, 12.7, 1730, 50, 51, 1730]                              # "Hardware Lengths, mm"
 
-hardware_indv_start = np.divide(hardware_indv_start,1000) # to meters
+hardware_indv_start = np.divide(hardware_indv_start, 1000) # to meters
 hardware_indv_end =   np.divide(hardware_indv_end, 1000) # to meters
 hardware_indv_length = np.divide(hardware_indv_length, 1000)# to meters
 
-hardware_indv_mass = [3.42, 0.36, 0.25, 4.75, 3.80, 1.62, 0.70, 0.10, 1.54, 0.56, 0.73, 0.05, 0.41, 11.51, 1.07, 3.95, 1.00] # "Individual Hardware Masses, kg"
+hardware_indv_mass = [3.39, 0.32, 0.25, 3.24, 2.38, 0.08, 1.68, 0.51, 0.43, 0.42, 8.47, 1.12, 1.33, 4.04] # "Individual Hardware Masses, kg"
 hardware_indv_cg = [] # "Individual Hardware centres of gravity, mm"
 
 for i in range(len(hardware_indv_start)):
@@ -170,19 +170,19 @@ def cg_calculate(both):
         lnox_density=PropsSI('D','P',tank_pressure[-1],'Q',0,'NITROUSOXIDE') # Liquid nitrous oxide density
         lnox_weight = mass_liquid_nitrous[-1]*g #Weight of the liquid nitrous
         lnox_height = ((mass_liquid_nitrous[-1]/lnox_density)/tank_crosssectionalarea)
-        lnox_cg = lnox_height/2 + hardware_indv_end[14]#Height of liquid NOX
+        lnox_cg = lnox_height/2 + hardware_indv_end[13]#Height of liquid NOX
         
         vnox_density =PropsSI('D','P',tank_pressure[-1],'Q',1,'NITROUSOXIDE') # Vapour nitrous oxide density
         vnox_weight = mass_vapour_nitrous[-1]*g #Weight of the vapour nitrous
         vnox_height = ((mass_vapour_nitrous[-1]/vnox_density)/tank_crosssectionalarea)
-        vnox_cg = vnox_height/2 + lnox_height + hardware_indv_end[14] #CG of Vapour Nox
+        vnox_cg = vnox_height/2 + lnox_height + hardware_indv_end[13] #CG of Vapour Nox
         weight_total = lnox_weight + vnox_weight + grain_weight + hardware_total_weight #Total weight
         all_cgw = (lnox_weight*lnox_cg) +(vnox_weight*vnox_cg) + (grain_weight*grain_cg) + hardware_cgw
 
     else:
         
         vnox_weight = mass_vapour_nitrous[-1]*g #Weight of the vapour nitrous
-        vnox_cg = length_tank/2 + hardware_indv_end[14]#Height of Vapour OX
+        vnox_cg = length_tank/2 + hardware_indv_end[13]#Height of Vapour OX
         
         weight_total = vnox_weight + grain_weight + hardware_total_weight #Total weight
         all_cgw = (vnox_weight*vnox_cg) + (grain_weight*grain_cg) + hardware_cgw
