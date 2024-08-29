@@ -1,4 +1,4 @@
-# Documentation for HEPT
+# HEPT - Hybrid Engine Performance Tool
 
 The code performs a simulation of a nitrous oxide - paraffin hybrid rocket motor. Some inputs from the user are needed, as seen below. 
 
