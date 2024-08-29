@@ -1,0 +1,4 @@
+CoolProp
+Scipy
+pandas
+numpy
